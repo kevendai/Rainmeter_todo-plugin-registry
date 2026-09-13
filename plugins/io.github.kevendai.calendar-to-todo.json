@@ -6,8 +6,8 @@
   "version": "1.0.0",
   "api_version": 1,
   "min_host_version": "2.0.0",
-  "download": "https://github.com/kevendai/rw-plugin-calendar-to-todo/releases/download/v1.0.0/calendar-to-todo-1.0.0.rwplugin",
+  "download": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/releases/download/calendar-to-todo-v1.0.0/calendar-to-todo-1.0.0.rwplugin",
   "sha256": "87ab226819ce0d6b423d928d37ea85bccb9b52b4a13955597ed4d98db7d808b6",
   "release_notes": "Initial official release",
-  "homepage": "https://github.com/kevendai/rw-plugin-calendar-to-todo"
+  "homepage": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/tree/master/official-plugins/calendar-to-todo"
 }
