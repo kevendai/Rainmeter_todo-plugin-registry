@@ -8,7 +8,7 @@
   "capabilities": ["todo_source"],
   "permissions": ["network"],
   "settings_schema": "settings.schema.json",
-  "homepage": "https://github.com/kevendai/rw-plugin-arxiv",
+  "homepage": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/tree/master/official-plugins/arxiv",
   "default_enabled": true,
   "actions": [
     {"id":"test_api","name":"测试 DeepSeek","confirm":false,"long_running":false},

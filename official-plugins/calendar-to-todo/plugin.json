@@ -7,7 +7,7 @@
   "entry": "bin/CalendarToTodoPlugin.exe",
   "capabilities": ["todo_transform"],
   "permissions": [],
-  "homepage": "https://github.com/kevendai/rw-plugin-calendar-to-todo",
+  "homepage": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/tree/master/official-plugins/calendar-to-todo",
   "default_enabled": true,
   "actions": []
 }

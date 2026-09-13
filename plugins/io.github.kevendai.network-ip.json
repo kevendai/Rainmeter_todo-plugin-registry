@@ -7,7 +7,7 @@
   "api_version": 1,
   "min_host_version": "2.0.0",
   "download": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/releases/download/network-ip-v1.0.0/network-ip-1.0.0.rwplugin",
-  "sha256": "da5294cc109f62c3e65ae3fdea94bcc5d45256c9325f99179bf9c939bdda5fc6",
+  "sha256": "4a1457fb7a9a87172c17e849c130ad80491529ac778084d36a2b65df7136cff7",
   "release_notes": "Initial official release",
   "homepage": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/tree/master/official-plugins/network-ip"
 }

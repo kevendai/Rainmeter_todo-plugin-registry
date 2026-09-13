@@ -8,7 +8,7 @@
   "capabilities": ["value_provider"],
   "permissions": ["network"],
   "settings_schema": "settings.schema.json",
-  "homepage": "https://github.com/kevendai/rw-plugin-network-ip",
+  "homepage": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/tree/master/official-plugins/network-ip",
   "default_enabled": false,
   "actions": []
 }
