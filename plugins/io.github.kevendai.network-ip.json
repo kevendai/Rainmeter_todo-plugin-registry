@@ -7,7 +7,7 @@
   "api_version": 1,
   "min_host_version": "2.0.0",
   "download": "https://github.com/kevendai/rw-plugin-network-ip/releases/download/v1.0.0/network-ip-1.0.0.rwplugin",
-  "sha256": "f76f44e874d409fe067e3f88729522fc051840754622b03768ee19f3e6f90c58",
+  "sha256": "da5294cc109f62c3e65ae3fdea94bcc5d45256c9325f99179bf9c939bdda5fc6",
   "release_notes": "Initial official release",
   "homepage": "https://github.com/kevendai/rw-plugin-network-ip"
 }

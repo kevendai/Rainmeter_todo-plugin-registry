@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-13T09:43:58.1084296+08:00",
+  "generated_at": "2026-09-13T09:47:51.9721292+08:00",
   "plugins": [
     {
       "id": "io.github.kevendai.arxiv",
@@ -11,7 +11,7 @@
       "api_version": 1,
       "min_host_version": "2.0.0",
       "download": "https://github.com/kevendai/rw-plugin-arxiv/releases/download/v1.0.0/arxiv-1.0.0.rwplugin",
-      "sha256": "44a03771930da2a154fff9c81fd47c4726e01a82b02fd85bad57ca755b43368d",
+      "sha256": "ee9d93bdf098d9e04dfbec02e2a5e83399ac260ddd09e5b2cece64e8947c296d",
       "release_notes": "Initial official release",
       "homepage": "https://github.com/kevendai/rw-plugin-arxiv"
     },
@@ -24,7 +24,7 @@
       "api_version": 1,
       "min_host_version": "2.0.0",
       "download": "https://github.com/kevendai/rw-plugin-calendar-to-todo/releases/download/v1.0.0/calendar-to-todo-1.0.0.rwplugin",
-      "sha256": "cac3451aef0473b2dbc4b6fb53aaad70af08d9ae7b3e7aca4570fb501d8ea8b4",
+      "sha256": "87ab226819ce0d6b423d928d37ea85bccb9b52b4a13955597ed4d98db7d808b6",
       "release_notes": "Initial official release",
       "homepage": "https://github.com/kevendai/rw-plugin-calendar-to-todo"
     },
@@ -37,7 +37,7 @@
       "api_version": 1,
       "min_host_version": "2.0.0",
       "download": "https://github.com/kevendai/rw-plugin-network-ip/releases/download/v1.0.0/network-ip-1.0.0.rwplugin",
-      "sha256": "f76f44e874d409fe067e3f88729522fc051840754622b03768ee19f3e6f90c58",
+      "sha256": "da5294cc109f62c3e65ae3fdea94bcc5d45256c9325f99179bf9c939bdda5fc6",
       "release_notes": "Initial official release",
       "homepage": "https://github.com/kevendai/rw-plugin-network-ip"
     }

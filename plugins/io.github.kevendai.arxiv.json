@@ -7,7 +7,7 @@
   "api_version": 1,
   "min_host_version": "2.0.0",
   "download": "https://github.com/kevendai/rw-plugin-arxiv/releases/download/v1.0.0/arxiv-1.0.0.rwplugin",
-  "sha256": "44a03771930da2a154fff9c81fd47c4726e01a82b02fd85bad57ca755b43368d",
+  "sha256": "ee9d93bdf098d9e04dfbec02e2a5e83399ac260ddd09e5b2cece64e8947c296d",
   "release_notes": "Initial official release",
   "homepage": "https://github.com/kevendai/rw-plugin-arxiv"
 }
