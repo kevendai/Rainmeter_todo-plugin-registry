@@ -1,0 +1,13 @@
+{
+  "id": "io.github.kevendai.calendar-to-todo",
+  "name": "Calendar to Todo",
+  "channel": "stable",
+  "official": true,
+  "version": "1.0.0",
+  "api_version": 1,
+  "min_host_version": "2.0.0",
+  "download": "https://github.com/kevendai/rw-plugin-calendar-to-todo/releases/download/v1.0.0/calendar-to-todo-1.0.0.rwplugin",
+  "sha256": "cac3451aef0473b2dbc4b6fb53aaad70af08d9ae7b3e7aca4570fb501d8ea8b4",
+  "release_notes": "Initial official release",
+  "homepage": "https://github.com/kevendai/rw-plugin-calendar-to-todo"
+}
