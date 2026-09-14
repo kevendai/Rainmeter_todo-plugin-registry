@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-13T09:54:01.0552565+08:00",
+  "generated_at": "2026-09-14T11:14:53.8807271+08:00",
   "plugins": [
     {
       "id": "io.github.kevendai.arxiv",
@@ -27,19 +27,6 @@
       "sha256": "00f1e38925619c1069cf6bdac22d82b5d96e2eab3a27fa38197e4635f796bdf7",
       "release_notes": "Initial official release",
       "homepage": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/tree/master/official-plugins/calendar-to-todo"
-    },
-    {
-      "id": "io.github.kevendai.network-ip",
-      "name": "Network IP",
-      "channel": "stable",
-      "official": true,
-      "version": "1.0.0",
-      "api_version": 1,
-      "min_host_version": "2.0.0",
-      "download": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/releases/download/network-ip-v1.0.0/network-ip-1.0.0.rwplugin",
-      "sha256": "4a1457fb7a9a87172c17e849c130ad80491529ac778084d36a2b65df7136cff7",
-      "release_notes": "Initial official release",
-      "homepage": "https://github.com/kevendai/Rainmeter_todo-plugin-registry/tree/master/official-plugins/network-ip"
     }
   ]
 }
