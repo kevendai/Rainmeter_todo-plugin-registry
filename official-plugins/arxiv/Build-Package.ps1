@@ -1,4 +1,4 @@
-param([string]$OutputDirectory = (Join-Path $PSScriptRoot 'dist'))
+﻿param([string]$OutputDirectory = (Join-Path $PSScriptRoot 'dist'))
 $ErrorActionPreference = 'Stop'
 $manifest = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'plugin.json') -Raw -Encoding UTF8 | ConvertFrom-Json
 $project = Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'src') -Filter '*.csproj' | Select-Object -First 1
@@ -12,12 +12,12 @@ try {
     New-Item -ItemType Directory -Path $bin -Force | Out-Null
     & $msbuild $project.FullName /nologo /verbosity:minimal /target:Build /property:Configuration=Release "/property:OutputPath=$bin\" "/property:IntermediateOutputPath=$(Join-Path $stage 'obj')\"
     if ($LASTEXITCODE -ne 0) { throw 'Plugin build failed.' }
-    foreach ($name in @('plugin.json','settings.schema.json','README.md','icon.png')) {
+    foreach ($name in @('plugin.json','settings.schema.json','README.md','THIRD-PARTY-NOTICES.md','icon.png')) {
         $source = Join-Path $PSScriptRoot $name
         if (Test-Path -LiteralPath $source) { Copy-Item -LiteralPath $source -Destination $stage }
     }
     New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
-    $slug = if ($manifest.id -eq 'io.github.kevendai.arxiv') { 'arxiv' } elseif ($manifest.id -eq 'io.github.kevendai.calendar-to-todo') { 'calendar-to-todo' } else { 'network-ip' }
+    $slug = if ($manifest.id -eq 'io.github.kevendai.arxiv') { 'arxiv' } elseif ($manifest.id -eq 'io.github.kevendai.ssdp-server-ip') { 'ssdp-server-ip' } else { 'calendar-to-todo' }
     $baseName = $slug + '-' + $manifest.version
     $zip = Join-Path $OutputDirectory ($baseName + '.zip')
     $package = Join-Path $OutputDirectory ($baseName + '.rwplugin')
