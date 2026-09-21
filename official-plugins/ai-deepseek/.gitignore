@@ -1,0 +1,15 @@
+dist/
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.log
+*.tmp
+config.json
+secret.dat
+state.json
+PluginData/
+PluginJobs/
+PluginLogs/
+PluginValues.inc
