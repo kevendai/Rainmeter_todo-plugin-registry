@@ -21,7 +21,7 @@ internal static partial class TodoApp
     // TodoUpdateService is shared with the host for translation helpers; this
     // plugin never launches the host updater.
     private static string UpdaterExecutable { get { return ""; } }
-    private static readonly string AppVersion="2.1.0";
+    private static readonly string AppVersion="2.0.7";
     private static Dictionary<string,object> PluginState;
     private sealed class EditorResult { public string Title,Target,Note,Available,Due;public List<string> Labels; }
     private delegate void LockedStateAction(Dictionary<string,object> state,ref bool refresh);
@@ -47,7 +47,7 @@ internal static partial class TodoApp
             // input.allow_paid_ai=true 重开**同一条同步流程**。
             // 2.0.4 的 test_api / test_file_server / test_translation 三个动作随它们各自的客户端
             // 一起删除：连通性由 Provider 自己负责（§7.1、§7.2、§7.3），arxiv 不再替别人拨号。
-            if(action!="sync"&&action!="rescore"&&action!="sync_with_ai"&&action!="validate_settings")return Emit(requestId,false,null,"不支持的 action");
+            if(action!="sync"&&action!="rescore"&&action!="sync_with_ai"&&action!="upload_snapshot"&&action!="validate_settings")return Emit(requestId,false,null,"不支持的 action");
             ResourceDir=Path.Combine(Path.GetTempPath(),"RainmeterArxivPlugin-"+requestId);
             Directory.CreateDirectory(ResourceDir);Directory.CreateDirectory(PaperCache);
             Dictionary<string,object> config=JsonUtil.Object(JsonUtil.Get(request,"config")),secret=JsonUtil.Object(JsonUtil.Get(request,"secret"));
@@ -61,9 +61,16 @@ internal static partial class TodoApp
             ApplyJobContext(context,input);
             PaperSettings settings=LoadPaperSettings();
             if(action=="validate_settings"){ValidatePaperSettings(settings);return Emit(requestId,true,new Dictionary<string,object>{{"message","设置有效"}},null);}
+            if(action=="upload_snapshot")
+            {
+                string upload=UploadCompletedSnapshot(JsonUtil.String(input,"date",""),JsonUtil.Bool(input,"overwrite",false));
+                return Emit(requestId,true,new Dictionary<string,object>{{"summary",upload},{"remote_exists",upload=="remote_exists"}},null);
+            }
             // 后台/定时同步（trigger=startup）今天已经跑过就不再走一遍 —— 沿用 2.0.4 的 startup 短路。
             bool manual=!String.Equals(JsonUtil.String(context,"trigger","manual"),"startup",StringComparison.OrdinalIgnoreCase);
-            if(!manual&&JsonUtil.String(persisted,"last_sync_date","")==date)
+            List<Dictionary<string,object>> completedCache;
+            if(!manual&&JsonUtil.String(persisted,"last_sync_date","")==date&&
+               TryUseLocalCache(date,settings,out completedCache))
                 return Emit(requestId,true,new Dictionary<string,object>{{"tasks",new List<object>()},{"summary","今日论文已同步"}},null);
             // 让 RunPaperSyncFlow 里"今天已完成就不再走"这条判断能看到磁盘上的真相。
             Meta(PluginState)["last_arxiv_sync_date"]=JsonUtil.String(persisted,"last_sync_date","");
@@ -131,6 +138,9 @@ internal static partial class TodoApp
     //   76 旧 secret 的 DeepSeek / FileServer 段不再进入业务配置。
     private static int RunPaperConsumerSelfTests()
     {
+        if(RemoteUploadMode(new SnapshotResult())!="create" ||
+           RemoteUploadMode(new SnapshotResult{Found=true})!="overwrite" ||
+           RemoteUploadMode(new SnapshotResult{Failed=true})!="")return 91;
         string providerVariable=ServiceClient.EnvironmentName(TranslationBindingKey,"PROVIDER"),providerNameVariable=ServiceClient.EnvironmentName(TranslationBindingKey,"NAME");
         string previousData=Environment.GetEnvironmentVariable("RW_PLUGIN_DATA_DIR"),previousProvider=Environment.GetEnvironmentVariable(providerVariable),previousProviderName=Environment.GetEnvironmentVariable(providerNameVariable),previousDeclined=Environment.GetEnvironmentVariable(ServiceClient.DeclinedTodayVariable);
         string isolated=Path.Combine(Path.GetTempPath(),"RainmeterArxivConsumer-"+Guid.NewGuid().ToString("N"));
@@ -170,7 +180,8 @@ internal static partial class TodoApp
             string date=DateTime.Now.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture);
             // 75：无 AI 无快照 ⇒ 老实说"今天没有可用的论文推荐结果"，不是 attention、更不是自行造结果。
             PaperSyncResult none=RunPaperSyncFlow(PluginState,true,date,false);
-            if(!none.Ok||none.Attention!=null||none.Summary.IndexOf("今天没有可用的论文推荐结果",StringComparison.Ordinal)<0)return 75;
+            if(!none.Ok||none.Attention!=null||none.Summary.IndexOf("今日论文未更新",StringComparison.Ordinal)<0
+                ||none.Summary.IndexOf("AI 评分插件未启用或不可用",StringComparison.Ordinal)<0)return 75;
             // 76-81：装了快照插件但没命中（这里连 Broker 都没有 ⇒ 走"请求失败"分支）+ 有 AI ⇒ attention。
             ApplyJobContext(context,empty);
             PaperSyncResult ask=RunPaperSyncFlow(PluginState,true,date,false);
@@ -186,8 +197,14 @@ internal static partial class TodoApp
             ApplyJobContext(context,empty);
             if(!DeclinedToday)return 82;
             if(RunPaperSyncFlow(PluginState,false,date,false).Attention!=null)return 83;
-            // 84：用户主动点 —— 任何时段、任何拒绝记录都必须照样问（拒绝只影响"打扰"，不影响"入口"）。
-            if(RunPaperSyncFlow(PluginState,true,date,false).Attention==null)return 84;
+            // 84：磁贴刷新和插件执行共用当天免打扰状态。
+            if(RunPaperSyncFlow(PluginState,true,date,false).Attention!=null)return 84;
+            // 90：显式重评分不显示普通的 AI 询问，也不提前删除旧缓存。
+            string cached=Path.Combine(PaperCache,date+"_papers.json");
+            File.WriteAllText(cached,"old-cache");
+            PaperSyncResult forced=RunPaperSyncFlow(PluginState,true,date,true);
+            if(forced.Attention!=null||forced.Ok||!File.Exists(cached))return 90;
+            File.Delete(cached);
             // 85：跨天重置 —— 宿主把该变量置 0 之后，后台同步恢复询问。
             Environment.SetEnvironmentVariable(ServiceClient.DeclinedTodayVariable,null);
             ApplyJobContext(context,empty);

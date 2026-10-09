@@ -1,8 +1,8 @@
 {
   "id": "io.github.kevendai.arxiv",
-  "name": "arXiv Paper Recommendation",
+  "name": "arXiv 论文推荐",
   "description": "从 arXiv 抓取当日论文、按你的评分提示词打分并导入待办。AI 评分、标题翻译与远端快照分别由 AI / 翻译 / 论文快照 Provider 提供。",
-  "version": "2.0.0",
+  "version": "2.0.7",
   "api_version": 1,
   "min_host_version": "2.1.0",
   "entry": "bin/ArxivPlugin.exe",
@@ -17,7 +17,7 @@
     {"service": "paper_snapshot_provider@1", "binding_key": "paper_snapshot_provider", "optional": true, "role": "远端快照"}
   ],
   "actions": [
-    {"id": "sync_with_ai", "name": "使用 AI 评分", "confirm": false, "long_running": true, "imports_tasks": true},
-    {"id": "rescore", "name": "重新爬取并打分", "confirm": true, "risk": "可能调用付费 API，并替换当天论文缓存。", "long_running": true, "imports_tasks": true}
+    {"id": "sync_with_ai", "name": "按需同步（缓存优先）", "confirm": false, "long_running": true, "imports_tasks": true},
+    {"id": "rescore", "name": "重新爬取并打分（直接使用 AI）", "confirm": false, "long_running": true, "imports_tasks": true}
   ]
 }
